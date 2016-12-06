@@ -1,17 +1,20 @@
 class Bola{
     constructor(svg,positionx,positiony){
+        this.create(svg,positionx,positiony);
+    }
+    create(svg,positionx,positiony){
         this.ball = document.createElementNS("http://www.w3.org/2000/svg","circle");
         this.ball.setAttribute("cx",positionx);
         this.ball.setAttribute("cy",positiony);
         this.ball.setAttribute("r","5");
-        this.ball.setAttribute("fill","black");
+        this.ball.setAttribute("fill","green");
         svg.appendChild(this.ball)
     }
 
-    movimiento(velocity){
+    move(velx,vely){
         var move = (position,velocity) => position+velocity;
-        var px = this.cx;
-        var py = this.cy;
+        var px = this.position[0];
+        var py = this.position[1];
         this.ball.setAttribute("cx",move(px,velx));
         this.ball.setAttribute("cy",move(py,vely));
     }
@@ -31,6 +34,10 @@ class Bola{
 
 class Ladrillo{
     constructor(svg,positionx,positiony,width,height){
+        this.create(svg,positionx,positiony,width,height);
+    }
+
+    create(svg,positionx,positiony,width,height){
         this.brick = document.createElementNS("http://www.w3.org/2000/svg","rect");
         this.brick.setAttribute("x",positionx);
         this.brick.setAttribute("y",positiony);
@@ -72,6 +79,9 @@ class Player{
 class Game{
     constructor(){
         this.contadorBall = 3;
+        this.createLevel();
+    }
+    createLevel(){
         var body = document.getElementById("body");
         body.style.backgroundColor = "black";
         this.svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
@@ -94,6 +104,10 @@ class Game{
     }
 
     createBall(){
+        var ball = new Bola(this.svg,500,400);
+    }
+
+    createPlayer(){
 
     }
 
@@ -101,9 +115,11 @@ class Game{
 
     }
 
+
 }
 
 window.onload = function(){
     var game = new Game();
     game.createBrick();
+    game.createBall();
 }
