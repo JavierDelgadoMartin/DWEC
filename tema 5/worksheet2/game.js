@@ -7,12 +7,21 @@ class Bola{
         this.ball.setAttribute("fill","black");
         svg.appendChild(this.ball)
     }
+
     movimiento(velocity){
         var move = (position,velocity) => position+velocity;
         var px = this.cx;
         var py = this.cy;
         this.ball.setAttribute("cx",move(px,velx));
         this.ball.setAttribute("cy",move(py,vely));
+    }
+
+    colision(){
+
+    }
+
+    destroy(){
+
     }
 
     get position(){
@@ -27,8 +36,17 @@ class Ladrillo{
         this.brick.setAttribute("y",positiony);
         this.brick.setAttribute("width",width);
         this.brick.setAttribute("height",height);
+        this.brick.setAttribute("fill","black");
         svg.appendChild(this.brick);
     }
+    colision(){
+
+    }
+
+    destroy(){
+
+    }
+
     get position(){
         return [parseInt(this.brick.getAttribute("cx")),parseInt(this.brick.getAttribute("cy"))];
     }
@@ -36,6 +54,9 @@ class Ladrillo{
 
 class Player{
     constructor(){
+
+    }
+    colision(){
 
     }
 
@@ -52,25 +73,27 @@ class Game{
     constructor(){
         this.contadorBall = 3;
         var body = document.getElementById("body");
+        body.style.backgroundColor = "black";
         this.svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-        this.svg.setAttribute("width","200");
-        this.svg.setAttribute("height","200");
+        this.svg.style.backgroundColor = "white";
+        this.svg.setAttribute("width","1000");
+        this.svg.setAttribute("height","500");
         body.appendChild(this.svg);
     }
 
     createBrick(){
-
-    }
-
-    destroyBrick(){
-
+        var posy = 60;
+        for (var i=0;i<5;i++){
+            var posx = 40;
+            for(var j=0;j<15;j++) {
+                new Ladrillo(this.svg, posx, posy, 40, 10);
+                posx += 60;
+            }
+            posy += 20
+        }
     }
 
     createBall(){
-
-    }
-
-    comprobarColision (){
 
     }
 
@@ -78,4 +101,9 @@ class Game{
 
     }
 
+}
+
+window.onload = function(){
+    var game = new Game();
+    game.createBrick();
 }
