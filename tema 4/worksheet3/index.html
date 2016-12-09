@@ -6,12 +6,13 @@
 </head>
 <body>
 <script type="text/javascript" src="worksheet3.js"></script>
-<form id="formulario" action="" method="post">
+<form id="formulario" action="" onsubmit="validarFormulario()">
     User ID: <input id="UID" type="text" name="UID"><br>
     Password: <input type="password" name="passwd"><br>
     Name: <input type="text" name="name"><br>
+    Address: <input type="text" name="name"><br>
     Country:
-    <select id="country" name="(pais)">
+    <select id="country" name="pais">
         <option value="">Selecciona un Pais</option>
         <option value="España">España</option>
         <option value="Francia">Francia</option>
@@ -22,9 +23,9 @@
     Email: <input id="email" type="email" name="correo"><br>
     <label id="sexo">Sex: <input type="radio" name="sexo" value="hombre">Hombre
     <input type="radio" name="sexo" value="mujer">Mujer</label><br>
-    <label id="lenguaje">Languaje: <input type="checkbox" name="lenguaje" value="english">English
-    <input type="checkbox" name="lenguaje" value="no english">No English</label><br>
-    About: <textarea type="message" rows="10" cols="30"></textarea><br>
+    <label id="lenguaje">Languaje: <input type="checkbox" name="lenguaje" value="english">English</label>
+    <label><input type="checkbox" name="lenguaje" value="no english">No English</label><br>
+    About: <label><textarea type="message" rows="10" cols="30"></textarea></label><br>
     <input id="boton" type="submit" value="enviar">
 </form>
 </body>

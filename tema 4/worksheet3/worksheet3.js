@@ -1,20 +1,34 @@
-class formulario{
-    constructor(){
-        document.getElementById("formulario").addEventListener("submit",this.comprobacion);
-    }
-    comprobacion(event){
-        var uid = this.compruebaLonguitud("UID",5,12);
-        var pass = this.compruebaLonguitud("passwd",7,12);
-        var nombre = this.compruebaVacio("name");
-        var pais = this.compruebaSelect("country");
-        var zip = this.compruebaNumero("zip");
-        var email = this.compruebaEmail("email");
-        var sexo = this.compruebaRadio("sexo");
-        var lenguaje = this.compruebaCheck("lenguaje");
-    }
-    compruebaLonguitud(id,minim,maximo){
+ function validarFormulario(){
+        var formulario = document.forms["formulario"];
+     if(formulario.UID.value.length < 5 || formulario.UID.value.length > 12){
+         alert("Usuario fallo");
+     }
+     if(formulario.passwd.value.length < 7 || formulario.UID.value.length > 12){
+         alert("Contraseña fallo");
+     }
+     if(/^[a-zA-Z]*$/.test(formulario.name.value)){
+         alert("Nombre fallo");
+     }
+     if(formulario.pais.value == ""){
+         alert("pais fallo")
+     }
+     if(/^\d*$/.test(formulario.ZIP.value)){
+         alert("ZIP fallo");
+     }
+     if(/^[a-z][\w.-]+@\w[\w.-]+\.[\w.-]*[a-z][a-z]$/i.test(formulario.correo.value)){
+         alert("Correo fallo");
+     }
+     if(formulario.sexo.value == ""){
+         alert("sexo fallo")
+     }
+     if(!formulario.lenguaje[0].checked || !formulario.lenguaje[1].checked ){
+         alert("lenguaje fallo")
+     }
+
+ }
+ /*function compruebaLonguitud(id,minim,maximo){
         var dato = document.getElementById(id).value;
-        if(dato.value != null) {
+        if(valor == null || valor.length == 0 || /^\s+$/.test(valor)) {
             if (dato.length < maximo && dato.length > minim) {
                 return true;
             } else {
@@ -38,10 +52,11 @@ class formulario{
         //if (dato.selectedIndex != )
     }
     compruebaNumero(id){}
-    compruebaEmail(id){}
+    compruebaEmail(id){
+        var dato = document.getElementById(id);
+
+    }
     compruebaRadio(id){}
     compruebaCheck(id){}
 }
-window.onload = function(){
-    new formulario();
-};
+*/
