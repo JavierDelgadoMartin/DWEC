@@ -15,7 +15,7 @@ function obtenerCookie(nombre) {
 }
 function crearCookie(usuario, valor, expiracion) {
     var d = new Date();
-    d.setTime(d.getTime() + (expiracion*60*1000));
+    d.setTime(d.getTime() + (expiracion*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = usuario + "=" + valor + ";" + expires + ";path=/";
 }
@@ -31,6 +31,9 @@ function comprobarcookie() {
             crearCookie("usuario", usuario, fecha);
         }
     }
+}
+
+function personalizacion(){
 }
 
 window.onload = function(){
