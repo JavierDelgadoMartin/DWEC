@@ -10,6 +10,7 @@ class Bola{
         var that = this;
         this.interval = setInterval(function(){that.move()},1000/60);
     }
+
     create(svg,positionx,positiony){
         this.ball = document.createElementNS("http://www.w3.org/2000/svg","circle");
         this.ball.setAttribute("cx",positionx);
@@ -36,11 +37,8 @@ class Bola{
         if(this.position[1]<=0 || this.position[1]>=this.height){
             this.vely = this.vely * -1;
         }
-        /*if( this.position[1]>=this.height){
-            this.ball.destroy();
-            this.juego.createBall();
-        }*/
     }
+
     shockBrick(){
         this.vely = this.vely * -1;
     }
@@ -70,6 +68,7 @@ class Ladrillo{
         this.brick.setAttribute("fill","red");
         svg.appendChild(this.brick);
     }
+
     colision(ball,index) {
         if (ball.position[1] >= this.position[1] && ball.position[1] <= (this.position[1] + this.height)) {
             if (ball.position[0] >= this.position[0] && ball.position[0] <= (this.position[0] + this.width)) {
@@ -80,7 +79,6 @@ class Ladrillo{
                 }
             }
         }
-
     }
 
     destroy(that){
@@ -90,9 +88,11 @@ class Ladrillo{
     get position(){
         return [parseInt(this.brick.getAttribute("x")),parseInt(this.brick.getAttribute("y"))];
     }
+
     get width(){
         return parseInt(this.brick.getAttribute("width"));
     }
+
     get height(){
         return parseInt(this.brick.getAttribute("height"));
     }
@@ -115,6 +115,7 @@ class Player{
         this.player.setAttribute("fill", "black");
         svg.appendChild(this.player);
     }
+
     colision(ball){
         if (ball.position[1] >= this.position[1] && ball.position[1] <= (this.position[1] + this.height)) {
             if (ball.position[0] >= this.position[0] && ball.position[0] <= (this.position[0] + this.width)) {
@@ -122,12 +123,15 @@ class Player{
             }
         }
     }
+
     get position(){
         return [parseInt(this.player.getAttribute("x")),parseInt(this.player.getAttribute("y"))];
     }
+
     get width(){
         return parseInt(this.player.getAttribute("width"));
     }
+
     get height(){
         return parseInt(this.player.getAttribute("height"));
     }
@@ -135,6 +139,7 @@ class Player{
     addEvent(){
         window.addEventListener("keydown",(e)=>this.move(e),false);
     }
+
     move(e){
         if(e.keyCode == 39 && this.position[0]<=890) {
             var move = (position, velocity) => position + velocity;
@@ -159,6 +164,7 @@ class Game{
         var that = this;
         this.interval = setInterval(function(){that.win()},1000/60);
     }
+
     createLevel(){
         var body = document.getElementById("body");
         body.style.backgroundColor = "red";
@@ -181,6 +187,7 @@ class Game{
             posy += 20
         }
     }
+
     colision(){
         var that = this;
         this.bricks.forEach(function (valor,index){
@@ -189,6 +196,7 @@ class Game{
         this.player.colision(this.ball);
         this.win();
     }
+
     deleteBrick(index){
         delete this.bricks[index];
     }
@@ -215,13 +223,10 @@ class Game{
             clearInterval(this.ball.interval);
             clearInterval(this.interval);
             alert("has ganado");
-
         }
     }
-
-
 }
 
 window.onload = function(){
     var game = new Game();
-}
+};
