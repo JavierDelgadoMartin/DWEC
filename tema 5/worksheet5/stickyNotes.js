@@ -2,15 +2,48 @@ class Vista{
     constructor(controlador){
         this.controlador = controlador;
         this.cuerpo = document.getElementById("cuerpo");
+        this.cabecera = document.getElementById("cabecera");
+        this.botonCrear();
     }
-
-    nuevaNota(){
-        var nota = document.createElement("article");
-
+    botonCrear(){
+        var crear = document.querySelector("header i");
+        var self = this;
+        crear.addEventListener("click",function(){
+            self.controlador.crearNota();
+        },false);
     }
-
-    eliminarNota(){
-
+    nuevaNota(id,fecha){
+        var tituto = document.createElement("input");
+        tituto.setAttribute("id","titulo");
+        var self = this;
+        tituto.addEventListener("keyup",function(){
+            var valor = document.getElementById("titulo").value;
+            self.controlador.escribirTitulo(id,valor);
+        },false);
+        var contenido = document.createElement("textArea");
+        contenido.setAttribute("id","contenido");
+        contenido.addEventListener("keyup",function(){
+            var valor = document.getElementById("contenido").value;
+            self.controlador.escribirContenido(id,valor);
+        },false);
+        var eliminar = document.createElement("i");
+        eliminar.setAttribute("id","eliminar");
+        eliminar.setAttribute("class","fa fa-times fa-lg");
+        eliminar.addEventListener("click",function(){
+            self.controlador.eliminarNota(id);
+            self.cuerpo.removeChild(document.getElementById(id));
+        },false);
+        var fecha = document.createElement("div");
+        fecha.setAttribute("id","fecha");
+        var tiempo =document.createTextNode("mojon");
+        fecha.appendChild(tiempo);
+        var caja = document.createElement("div");
+        caja.setAttribute("id",id);
+        caja.appendChild(tituto);
+        caja.appendChild(eliminar);
+        caja.appendChild(contenido);
+        caja.appendChild(fecha);
+        this.cuerpo.appendChild(caja);
     }
 
     mostrarNota(){
@@ -25,8 +58,22 @@ class Controlador{
     }
 
     crearNota(){
-
+        var nota = this.modelo.crearNota();
+        this.vista.nuevaNota(nota.obtenerId,nota.fechaCreacion);
     }
+
+    escribirTitulo(id,contenido){
+        this.modelo.escribirTitulo(id,contenido);
+    }
+
+    escribirContenido(id,contenido){
+        this.modelo.escribirContenido(id,contenido);
+    }
+
+    eliminarNota(id){
+        this.modelo.eliminarNota(id);
+    }
+
     cambiarPosicion(){
 
     }
@@ -43,10 +90,16 @@ class Controlador{
 class Modelo{
     constructor(controlador){
         this.controlador = controlador;
+        this.coleccionNotas = [];
+        this.id = 1;
     }
-    crearnota(titulo,texto){
-        this.nota = new Nota(titulo,texto);
+    crearNota(){
+        var nota = new Nota(this.id);
+        this.id ++;
+        this.coleccionNotas.push(nota);
+        return nota;
     }
+
     cambiarPosicion(){
 
     }
@@ -58,12 +111,61 @@ class Modelo{
     TiempoTranscurrido(){
 
     }
+    escribirTitulo(id,contenido){
+        var nota = this.buscarNota(id);
+        nota.escribirTitulo(contenido);
+    }
+    escribirContenido(id,contenido){
+        var nota = this.buscarNota(id);
+        nota.escribirContenido(contenido);
+    }
+
+    eliminarNota(id){
+        this.coleccionNotas.forEach(function(valor,index,array){
+            if(valor.id == id){
+                array.splice(index,1);
+            }
+        });
+    }
+
+    buscarNota(id){
+        var resultado;
+        this.coleccionNotas.forEach(function(valor){
+            if(valor.id == id){
+                resultado = valor;
+            }
+        });
+        return resultado;
+    }
 }
 
 class Nota{
-    constructor(titulo,texto){
-        this.titulo = titulo;
-        this.texto = texto;
-        this.fechaCreacion = new Date();
+    constructor(id){
+        this.titulo = "";
+        this.texto = "";
+        this.fecha = new Date();
+        this.id = id;
+        this.eliminar = "";
     }
+    cargarContenido(){
+
+    }
+    escribirTitulo(contenido){
+        this.titulo = contenido;
+    }
+    escribirContenido(contenido){
+        this.contenido = contenido;
+    }
+
+    get obtenerId(){
+        return this.id;
+    }
+
+    get fechaCreacion(){
+        return this.fecha;
+    }
+}
+
+window.onload = function(){
+    new Controlador();
 }
