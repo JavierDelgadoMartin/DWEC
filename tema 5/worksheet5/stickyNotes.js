@@ -5,6 +5,7 @@ class Vista{
         this.cabecera = document.getElementById("cabecera");
         this.botonCrear();
     }
+
     botonCrear(){
         var crear = document.querySelector("header i");
         var self = this;
@@ -12,6 +13,7 @@ class Vista{
             self.controlador.crearNota();
         },false);
     }
+
     nuevaNota(id,fecha){
         var tituto = document.createElement("input");
         tituto.setAttribute("id","titulo");
@@ -35,19 +37,22 @@ class Vista{
         },false);
         var fecha = document.createElement("div");
         fecha.setAttribute("id","fecha");
-        var tiempo =document.createTextNode("mojon");
+        var tiempo = document.createTextNode("hace segundos");
         fecha.appendChild(tiempo);
-        var caja = document.createElement("div");
-        caja.setAttribute("id",id);
-        caja.appendChild(tituto);
-        caja.appendChild(eliminar);
-        caja.appendChild(contenido);
-        caja.appendChild(fecha);
-        this.cuerpo.appendChild(caja);
+        var nota = document.createElement("div");
+        nota.setAttribute("class","nota");
+        nota.setAttribute("id",id);
+        nota.appendChild(eliminar);
+        nota.appendChild(tituto);
+        nota.appendChild(contenido);
+        nota.appendChild(fecha);
+        this.cuerpo.appendChild(nota);
+        this.controlador.modificarTiempo(id);
     }
 
-    mostrarNota(){
-
+    modificarTiempo(id,tiempo){
+        var nota = document.getElementById(id);
+        alert(nota.lastChild("div"));
     }
 }
 
@@ -78,8 +83,9 @@ class Controlador{
 
     }
 
-    modificarContenido(){
-
+    modificarTiempo(id){
+        var tiempo = this.modelo.tiempoTranscurrido(id);
+        this.vista.modificarTiempo(id,tiempo);
     }
 
     cambiarTamaño(){
@@ -108,13 +114,21 @@ class Modelo{
 
     }
 
-    TiempoTranscurrido(){
-
+    tiempoTranscurrido(id){
+        var fechaActual = new Date();
+        this.coleccionNotas.forEach(function(valor){
+            if(valor.id == id){
+                var tiempo = (valor.fechaCreacion - fechaActual) + "minutos";
+                return tiempo;
+            }
+        });
     }
+
     escribirTitulo(id,contenido){
         var nota = this.buscarNota(id);
         nota.escribirTitulo(contenido);
     }
+
     escribirContenido(id,contenido){
         var nota = this.buscarNota(id);
         nota.escribirContenido(contenido);
@@ -168,4 +182,4 @@ class Nota{
 
 window.onload = function(){
     new Controlador();
-}
+};
