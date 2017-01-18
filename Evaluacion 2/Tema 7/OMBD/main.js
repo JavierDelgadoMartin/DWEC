@@ -3,7 +3,6 @@ class Vista{
     constructor(){
 
     }
-
 }
 
 class Controlador{
@@ -16,6 +15,13 @@ class Controlador{
 class Modelo{
     constructor(controlador){
         this.controlador = controlador;
+        this.conexion = new Conexion();
+    }
+}
+
+class Conexion{
+    constructor(api){
+        this.api = api;
     }
 
 }
