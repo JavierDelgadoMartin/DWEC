@@ -3,3 +3,7 @@ function mostrarDetalles(){
         this.tooltip();
     });
 }
+
+$(document).ready(function () {
+    mostrarDetalles();
+});
