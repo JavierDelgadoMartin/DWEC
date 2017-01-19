@@ -2,17 +2,28 @@
 class Vista{
     constructor(controlador){
         this.controlador = controlador;
-
+        this.cuerpo = $("section");
     }
-    addEventoBuscar(){
+    EventoBuscar(){
         var that = this;
         $("#buscar").click(function () {
             that.buscarPeliculas();
         });
     }
     buscarPeliculas(){
+        this.pagina = 1;
         this.titulo = $("#titulo").val();
-        this.controlador.obtenerPeliculas(this.titulo,"http://www.omdbapi.com/?");
+        this.controlador.obtenerPeliculas(this.titulo,this.pagina,"http://www.omdbapi.com/?");
+    }
+    mostrarPelicula(pelicula){
+        $(this.cuerpo).append(pelicula);
+        this.mostrarMasDatos();
+    }
+    mostrarMasDatos(){
+    $("section").infinitescroll(function () {
+        this.controlador.obtenerPeliculas(this.titulo,this.pagina,"http://www.omdbapi.com/?");
+    });
+        this.pagina ++;
     }
 }
 
@@ -20,23 +31,20 @@ class Controlador{
     constructor(){
         this.modelo = new Modelo(this);
         this.vista = new Vista(this);
-        this.pagina = 1;
-        this.vista.addEventoBuscar();
+        this.vista.EventoBuscar();
         }
-        obtenerPeliculas(titulo,api){
+        obtenerPeliculas(titulo,pagina,api){
             var that = this;
             $.getJSON(api,{
                 s:titulo,
                 //type:tipo,
-                page:this.pagina
+                page:pagina
             }, function (data) {
                 that.modelo.cargarDatosPeliculas(data);
             });
-            this.pagina ++;
         }
-    imprimirPelicula(poster,titulo,año){
-        var caja = document.createElement("div");
-        var
+    mostrarPelicula(pelicula){
+        this.vista.mostrarPelicula(pelicula);
     }
 }
 
@@ -47,9 +55,19 @@ class Modelo{
     cargarDatosPeliculas(data){
         var that = this;
         $.each(data["Search"], function (index,item) {
-            console.log(item);
-            that.controlador.imprimirPelicula(item.Poster,item.Title,item.Year);
-        })
+            that.crearPelicula(item.Poster,item.Title,item.Year);
+        });
+    }
+    crearPelicula(poster, title, year){
+        var pelicula = document.createElement("article");
+        var portada = document.createElement("img");
+        portada.setAttribute("src",poster);
+        var titulo = document.createElement("p");
+        $(titulo).text(title);
+        var año = document.createElement("p");
+        $(año).text(year);
+        $(pelicula).append(portada,titulo,año);
+        this.controlador.mostrarPelicula(pelicula);
     }
 }
 
