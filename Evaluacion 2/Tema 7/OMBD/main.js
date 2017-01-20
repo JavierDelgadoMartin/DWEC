@@ -2,7 +2,7 @@
 class Vista{
     constructor(controlador){
         this.controlador = controlador;
-        this.cuerpo = $("section");
+        this.cuerpo = $(".container");
         this.mostrarMasDatos();
     }
 
@@ -24,7 +24,7 @@ class Vista{
     }
 
     mostrarPelicula(pelicula){
-        $(this.cuerpo).append(pelicula);
+        $(".loader").before(pelicula);
     }
 
     mostrarMasDatos(){
@@ -59,7 +59,10 @@ class Controlador{
         $.getJSON(api,
             {s:titulo, page:pagina},
             function (data) {
-            that.modelo.cargarDatosPeliculas(data);
+                var carga = $(".loader");
+                carga.show();
+                that.modelo.cargarDatosPeliculas(data);
+                carga.hide();
         });
     }
 
@@ -85,14 +88,18 @@ class Modelo{
     }
 
     crearPelicula(poster, title, year){
-        var pelicula = document.createElement("article");
+        var pelicula = document.createElement("div");
+        $(pelicula).addClass("col-sm-5 card");
         var portada = document.createElement("img");
-        portada.setAttribute("src",poster);
+        $(portada).addClass("card-img-top").attr("src",poster);
+        var descripcion = document.createElement("div");
+        $(descripcion).addClass("card-block");
         var titulo = document.createElement("p");
         $(titulo).text(title);
         var año = document.createElement("p");
         $(año).text(year);
-        $(pelicula).append(portada,titulo,año);
+        $(descripcion).append(titulo,año);
+        $(pelicula).append(portada,descripcion);
         this.controlador.mostrarPelicula(pelicula);
     }
 }
