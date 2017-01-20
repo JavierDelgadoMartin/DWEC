@@ -3,6 +3,7 @@ class Vista{
     constructor(controlador){
         this.controlador = controlador;
         this.cuerpo = $("section");
+        this.mostrarMasDatos();
     }
 
     EventoBuscar(){
@@ -21,20 +22,19 @@ class Vista{
 
     mostrarPelicula(pelicula){
         $(this.cuerpo).append(pelicula);
-        this.mostrarMasDatos();
     }
 
     mostrarMasDatos(){
         var that = this;
         var ventana = $(window);
         ventana.scroll(function () {
-            if($(window).scrollTop() + $(window).height() == that.getDocHeight()) {
-                that.controlador.obtenerPeliculas(this.titulo, this.pagina, "http://www.omdbapi.com/?");
+            if($(window).scrollTop() + $(window).height() == Vista.getDocHeight()) {
+                that.controlador.obtenerPeliculas(that.titulo, that.pagina, "http://www.omdbapi.com/?");
                 that.pagina++;
             }
         });
     }
-    getDocHeight() {
+    static getDocHeight() {
         var D = document;
         return Math.max(
             D.body.scrollHeight, D.documentElement.scrollHeight,
@@ -57,9 +57,7 @@ class Controlador{
             {s:titulo, page:pagina},
             function (data) {
             that.modelo.cargarDatosPeliculas(data);
-        }, function () {
-                alert("no hay mas peliculas");
-            });
+        });
     }
 
     mostrarPelicula(pelicula){
