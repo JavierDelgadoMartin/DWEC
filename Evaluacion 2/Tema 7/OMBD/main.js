@@ -8,13 +8,16 @@ class Vista{
 
     EventoBuscar(){
         var that = this;
-        $("#buscar").click(function () {
-            that.buscarPeliculas();
+        $("#titulo").keyup(function (event) {
+            if(event.key == "Enter") {
+                that.buscarPeliculas();
+            }
         });
     }
 
     buscarPeliculas(){
         this.pagina = 1;
+        $("section").html("");
         this.titulo = $("#titulo").val();
         this.controlador.obtenerPeliculas(this.titulo,this.pagina,"http://www.omdbapi.com/?");
         this.pagina ++;
@@ -73,7 +76,11 @@ class Modelo{
     cargarDatosPeliculas(data){
         var that = this;
         $.each(data["Search"], function (index,item) {
-            that.crearPelicula(item.Poster,item.Title,item.Year);
+            if (item.Poster == "N/A"){
+                that.crearPelicula("no_photo.jpg", item.Title, item.Year);
+            }else {
+                that.crearPelicula(item.Poster, item.Title, item.Year);
+            }
         });
     }
 
