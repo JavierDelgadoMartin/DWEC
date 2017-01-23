@@ -20,15 +20,40 @@ img{
 
 .jumbotron {
     margin-bottom: 0;
+    background-color: #3c3c3c;
+    color: white;
 }
 
-.card{
+.jumbotron input{
+    color: black;
+}
+
+.card {
+    margin-bottom: 2%;
+    margin-left: 18%;
     float: left;
+    background-color: #3c3c3c;
+    width: 280px;
+    padding: 0;
+}
+
+.card-block{
+    background-color: #3c3c3c;
+    color: white;
+}
+
+body{
+    background-image: url("fondo.jpg");
+    height: 910px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
 }
 
 img{
     width:20em;
     height:30em;
+
 }
 
 .busqueda{
