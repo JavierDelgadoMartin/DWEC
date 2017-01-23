@@ -17,14 +17,14 @@ class Vista{
 
     buscarPeliculas(){
         this.pagina = 1;
-        $("section").html("");
+        $(".container").html("");
         this.titulo = $("#titulo").val();
         this.controlador.obtenerPeliculas(this.titulo,this.pagina,"http://www.omdbapi.com/?");
         this.pagina ++;
     }
 
     mostrarPelicula(pelicula){
-        $(".loader").before(pelicula);
+        $(".container").append(pelicula);
     }
 
     mostrarMasDatos(){
@@ -59,10 +59,7 @@ class Controlador{
         $.getJSON(api,
             {s:titulo, page:pagina},
             function (data) {
-                var carga = $(".loader");
-                carga.show();
                 that.modelo.cargarDatosPeliculas(data);
-                carga.hide();
         });
     }
 
